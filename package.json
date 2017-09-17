@@ -1,0 +1,30 @@
+{
+  "name": "php-include-html",
+  "version": "1.0.0",
+  "description": "Scan PHP files in Gulp and process include statements to include HTML snippets",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/riklewis/php-include-html.git"
+  },
+  "keywords": [
+    "php",
+    "include",
+    "html",
+    "gulp"
+  ],
+  "author": {
+    "name": "Rik Lewis",
+    "email": "rik@rik.onl"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "fs": "0.0.1-security",
+    "gulp-util": "^3.0.8",
+    "through2": "^2.0.3",
+    "vinyl": "^2.1.0"
+  }
+}

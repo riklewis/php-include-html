@@ -19,6 +19,9 @@ function phpIncludeHtml(opts) {
       this.emit("error",new PluginError("php-include-html","Sorry, streams are not supported in php-include-html"));
       return cb();
     }
+    if(options.verbose) {
+      console.log("[php-include-html] processing "+file.relative+"...");
+    }
     var fout = processFile(file);
     this.push(fout);
     cb();
@@ -27,23 +30,24 @@ function phpIncludeHtml(opts) {
 }
 
 function processFile(file) {
-  var regex = /<\?(php){0,1}\s+(?:include[^;]*?['"](.+?)['"].*?;)\s*\?>\s*$/gmi;
+  var regex = /<\?(php){0,1}\s+(?:(require|include)[^;]*?['"](.+?)['"].*?;)\s*\?>\s*$/gmi;
   var cont = file.contents.toString();
   var res = null;
   while((res = regex.exec(file.contents))!==null) {
-    var fnam = res[2];
+    var rori = res[2]; //"require"/"include"
+    var fnam = res[3];
     var floc = path.join(options.path,fnam);
     try {
       var newf = fs.readFileSync(floc);
       var resf = processFile(new vinyl({path:floc,contents:new Buffer(newf.toString())}));
       cont = cont.replace(res[0],resf.contents.toString());
       if(options.verbose) {
-        console.log("[php-include-html] Included: "+fnam);
+        console.log("[php-include-html] "+rori+"d: "+fnam);
       }
     }
     catch(e) {
       if(options.verbose) {
-        console.log("[php-include-html] Failed: "+fnam);
+        console.log("[php-include-html] failed "+rori+": "+fnam);
       }
     }
   }

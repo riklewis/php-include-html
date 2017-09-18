@@ -1,7 +1,7 @@
 Description
 ===========
 
-Scan PHP files in Gulp and process include statements to include HTML snippets
+Scan PHP files in Gulp and process include and require statements to inline HTML snippets.
 
 
 Requirements
@@ -36,10 +36,8 @@ Examples
 ```
 
 
-
-Parameters (all optional)
+Configuration options
 ==========
 
-* **verbose** (< _boolean_ >) - Will output additional messages to the console
-
-* **path** (< _string_ >) - Specifies the base path of files if not same as gulpfile
+* **verbose**: Will output additional messages to the console (boolean - default: false)
+* **path**: The base path of files if not same as gulpfile (string - default: "")

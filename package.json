@@ -1,6 +1,6 @@
 {
   "name": "php-include-html",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Scan PHP files in Gulp and process include and require statements to inline HTML snippets",
   "main": "index.js",
   "scripts": {
@@ -11,10 +11,11 @@
     "url": "https://github.com/riklewis/php-include-html.git"
   },
   "keywords": [
-    "php",
-    "include",
+    "gulp",
     "html",
-    "gulp"
+    "include",
+    "php",
+    "require"
   ],
   "author": {
     "name": "Rik Lewis",

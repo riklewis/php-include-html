@@ -1,8 +1,11 @@
 Description
 ===========
 
-Scan PHP files in Gulp and process include and require statements to inline HTML snippets.
-
+Scan PHP files in Gulp and process include and require statements to inline HTML snippets. The following are all handled...
+* include
+* require
+* include_once
+* require_once
 
 Requirements
 ============
@@ -19,8 +22,8 @@ Install
 Examples
 ========
 
+* gulpfile.js
 ```javascript
-
   var gulp = require("gulp");
   var pump = require("pump");
   var phpinc = require("php-include-html");
@@ -34,6 +37,27 @@ Examples
     ],cb);
   });
 ```
+
+* index.php
+```html
+  <!DOCTYPE html>
+  <html lang="en-gb">
+    <head>
+      <title>php-include-html</title>
+<?php include("head.php");?>
+    </head>
+    <body>
+      <!-- etc -->
+    </body>
+  </html>
+```
+
+* head.php
+```html
+      <meta name="viewport" content="width=device-width,initial-scale=1.0">
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+```  
 
 
 Configuration options

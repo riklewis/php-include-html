@@ -5,6 +5,7 @@ var through = require("through2");
 var vinyl = require("vinyl");
 var PluginError = util.PluginError;
 var options = {};
+var onceArray = [];
 
 function phpIncludeHtml(opts) {
   options = opts;
@@ -22,6 +23,7 @@ function phpIncludeHtml(opts) {
     if(options.verbose) {
       console.log("[php-include-html] processing "+file.relative+"...");
     }
+    onceArray = []; //reset each file
     var fout = processFile(file);
     this.push(fout);
     cb();
@@ -30,24 +32,34 @@ function phpIncludeHtml(opts) {
 }
 
 function processFile(file) {
-  var regex = /<\?(php){0,1}\s+(?:(require|include)[^;]*?['"](.+?)['"].*?;)\s*\?>\s*$/gmi;
+  var regex = /<\?(php){0,1}\s+(?:(require_once|include_once|require|include)[^;]*?['"](.+?)['"].*?;)\s*\?>\s*$/gmi;
   var cont = file.contents.toString();
   var res = null;
   while((res = regex.exec(file.contents))!==null) {
-    var rori = res[2]; //"require"/"include"
+    var rori = String(res[2]).substr(0,7); //"require"/"include"
+    var once = (String(res[2]).length > 7); //true/false
     var fnam = res[3];
-    var floc = path.join(options.path,fnam);
-    try {
-      var newf = fs.readFileSync(floc);
-      var resf = processFile(new vinyl({path:floc,contents:new Buffer(newf.toString())}));
-      cont = cont.replace(res[0],resf.contents.toString());
+    if(once && onceArray[fnam]) {
+      cont = cont.replace(res[0],"");
       if(options.verbose) {
-        console.log("[php-include-html] "+rori+"d: "+fnam);
+        console.log("[php-include-html] not "+rori+"d: "+fnam+" (already "+rori+"d)");
       }
     }
-    catch(e) {
-      if(options.verbose) {
-        console.log("[php-include-html] failed "+rori+": "+fnam);
+    else {
+      onceArray[fnam] = rori;
+      var floc = path.join(options.path,fnam);
+      try {
+        var newf = fs.readFileSync(floc);
+        var resf = processFile(new vinyl({path:floc,contents:new Buffer(newf.toString())}));
+        cont = cont.replace(res[0],resf.contents.toString());
+        if(options.verbose) {
+          console.log("[php-include-html] "+rori+"d: "+fnam);
+        }
+      }
+      catch(e) {
+        if(options.verbose) {
+          console.log("[php-include-html] failed "+rori+": "+fnam);
+        }
       }
     }
   }

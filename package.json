@@ -15,7 +15,8 @@
     "html",
     "include",
     "php",
-    "require"
+    "require",
+    "gulpplugin"
   ],
   "author": {
     "name": "Rik Lewis",

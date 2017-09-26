@@ -1,6 +1,6 @@
 {
   "name": "php-include-html",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Scan PHP files in Gulp and process include and require statements to inline HTML snippets",
   "main": "index.js",
   "scripts": {
@@ -22,9 +22,12 @@
     "name": "Rik Lewis",
     "email": "rik@rik.onl"
   },
+  "homepage": "https://github.com/riklewis/php-include-html",
+  "bugs": {
+    "url": "https://github.com/riklewis/php-include-html/issues"
+  },
   "license": "MIT",
   "devDependencies": {
-    "fs": "0.0.1-security",
     "gulp-util": "^3.0.8",
     "through2": "^2.0.3",
     "vinyl": "^2.1.0"

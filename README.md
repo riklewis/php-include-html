@@ -1,3 +1,5 @@
+[![NPM Version](http://img.shields.io/npm/v/php-include-html.svg?style=flat)](https://www.npmjs.org/package/php-include-html) [![GitHub issues](https://img.shields.io/github/issues/riklewis/php-include-html.svg)](https://github.com/riklewis/php-include-html/issues) [![Dependencies](http://img.shields.io/david/riklewis/php-include-html.svg?style=flat)](https://david-dm.org/riklewis/php-include-html) [![Dev Dependencies](http://img.shields.io/david/dev/riklewis/php-include-html.svg?style=flat)](https://david-dm.org/riklewis/php-include-html?type=dev)
+
 Description
 ===========
 

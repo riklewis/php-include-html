@@ -11,7 +11,7 @@ Status
 ======
 
 [![NPM Version](http://img.shields.io/npm/v/php-include-html.svg?style=flat)](https://www.npmjs.org/package/php-include-html) [![GitHub Issues](https://img.shields.io/github/issues/riklewis/php-include-html.svg)](https://github.com/riklewis/php-include-html/issues) [![Dependencies](http://img.shields.io/david/riklewis/php-include-html.svg?style=flat)](https://david-dm.org/riklewis/php-include-html) [![Development Dependencies](http://img.shields.io/david/dev/riklewis/php-include-html.svg?style=flat)](https://david-dm.org/riklewis/php-include-html?type=dev) [![Build Status](http://img.shields.io/travis/riklewis/php-include-html.svg?style=flat)](https://travis-ci.org/riklewis/php-include-html)
-[![Coverage Status](http://img.shields.io/coveralls/riklewis/php-include-html4.svg?style=flat)](https://coveralls.io/r/riklewis/php-include-html4?branch=master)
+[![Coverage Status](http://img.shields.io/coveralls/riklewis/php-include-html4.svg?style=flat)](https://coveralls.io/r/riklewis/php-include-html?branch=master)
 
 Requirements
 ============

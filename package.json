@@ -1,6 +1,6 @@
 {
   "name": "php-include-html",
-  "version": "1.1.3",
+  "version": "1.2.0",
   "description": "Scan PHP files in Gulp and process include and require statements to inline HTML snippets",
   "main": "index.js",
   "repository": {
@@ -27,9 +27,11 @@
   "license": "MIT",
   "devDependencies": {
     "chai": "^4.1.2",
+    "event-stream": "^3.3.4",
     "expect": "^21.1.0",
     "gulp-util": "^3.0.8",
     "mocha": "^3.5.3",
+    "sinon": "^4.0.0",
     "through2": "^2.0.3",
     "vinyl": "^2.1.0"
   },

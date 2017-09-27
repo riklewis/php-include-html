@@ -12,10 +12,14 @@ function phpIncludeHtml(opts) {
   if(!options || options.toString()!=="[object Object]") {
     options = {};
   }
-  if(typeof(options.path)!=="String") {
+  if(typeof(options.path)!=="string") {
     options.path = "";
   }
   var stream = through.obj(function(file,enc,cb) {
+    if(file.isNull()) {
+      this.push(file);
+      return cb();
+    }
     if(!file.isBuffer()) {
       this.emit("error",new PluginError("php-include-html","Sorry, streams are not supported in php-include-html"));
       return cb();
@@ -32,7 +36,7 @@ function phpIncludeHtml(opts) {
 }
 
 function processFile(file) {
-  var regex = /<\?(php){0,1}\s+(?:(require_once|include_once|require|include)[^;]*?['"](.+?)['"].*?;)\s*\?>\s*$/gmi;
+  var regex = /<\?(php){0,1}\s+(?:(require_once|include_once|require|include)[^;]*?['"](.+?)['"].*?;)\s*\?>/gmi;
   var cont = file.contents.toString();
   var res = null;
   while((res = regex.exec(file.contents))!==null) {
@@ -47,7 +51,7 @@ function processFile(file) {
     }
     else {
       onceArray[fnam] = rori;
-      var floc = path.join(options.path,fnam);
+      var floc = path.normalize(path.join(options.path,fnam));
       try {
         var newf = fs.readFileSync(floc);
         var resf = processFile(new vinyl({path:floc,contents:new Buffer(newf.toString())}));

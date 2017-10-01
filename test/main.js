@@ -355,6 +355,17 @@ describe("php-include-html",function() {
           done();
         });
       });
+      it("should *not* include a file if the specified path doesn't exist",function(done) {
+        var floc = path.normalize(process.cwd()+"/index.php");
+        var temp = new util.File({contents:new Buffer("<html><?php include(\"test/should/fail.php\");?></html>"),path:floc});
+        var stream = phpinc({path:"fail"});
+        stream.write(temp);
+        stream.once("data",function(file) {
+          expect(file.isBuffer()).to.be.true;
+          expect(file.contents.toString()).to.contain("test/should/fail.php");
+          done();
+        });
+      });
     });
     describe("Option: verbose",function() {
       var sandbox;
@@ -391,7 +402,7 @@ describe("php-include-html",function() {
       });
       it("should include a file with verbose messaging on",function(done) {
         var floc = path.normalize(process.cwd()+"/index.php");
-        var temp = new util.File({contents:new Buffer("<html><?php include(\"test/fixtures/test.php\");?></html>"),path:floc});
+        var temp = new util.File({contents:new Buffer("<html><?php include(\"test/fixtures/test.php\");?><?php include_once(\"test/fixtures/test.php\");?><?php include(\"test/should/fail.php\");?></html>"),path:floc});
         var stream = phpinc({verbose:true});
         stream.write(temp);
         stream.once("data",function(file) {

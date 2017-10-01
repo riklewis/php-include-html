@@ -22,7 +22,7 @@ function phpIncludeHtml(opts) {
     }
     if(!file.isBuffer()) {
       this.emit("error",new PluginError("php-include-html","Sorry, streams are not supported in php-include-html"));
-      return cb();
+      //return cb();
     }
     if(options.verbose) {
       console.log("[php-include-html] processing "+file.relative+"...");

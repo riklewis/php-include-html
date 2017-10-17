@@ -34,6 +34,17 @@ describe("php-include-html",function() {
     });
   });
   describe("isBuffer()",function() {
+    it("should *not* change other php code",function(done) {
+      var floc = path.normalize(process.cwd()+"/index.php");
+      var temp = new util.File({contents:new Buffer("<html><?php echo('test');?></html>"),path:floc});
+      var stream = phpinc();
+      stream.write(temp);
+      stream.once("data",function(file) {
+        expect(file.isBuffer()).to.be.true;
+        expect(file.contents.toString()).to.contain("echo('test');");
+        done();
+      });
+    });
     describe("Function: include",function() {
       it("should include a file once (double quotes and brackets)",function(done) {
         var floc = path.normalize(process.cwd()+"/index.php");

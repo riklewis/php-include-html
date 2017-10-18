@@ -1,7 +1,6 @@
 var fs = require("fs");
 var util = require("gulp-util");
 var path = require("path");
-var vinyl = require("vinyl");
 var es = require("event-stream");
 var expect = require("chai").expect;
 var sinon = require("sinon");
@@ -122,7 +121,7 @@ describe("php-include-html",function() {
           expect(file.contents.toString()).to.contain("Test2.php includes contents of test.php");
           done();
         });
-      });     
+      });
     });
     describe("Function: require",function() {
       it("should include a file once (double quotes and brackets)",function(done) {

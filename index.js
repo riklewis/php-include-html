@@ -2,11 +2,10 @@ var fs = require("fs");
 var util = require("gulp-util");
 var path = require("path");
 var through = require("through2");
-var vinyl = require("vinyl");
 var PluginError = util.PluginError;
 var options = {};
 var onceArray = [];
-var version = "1.3.0"; /* must match package.json file */
+var version = "1.3.0a"; /* must match package.json file */
 
 function phpIncludeHtml(opts) {
   options = opts;
@@ -28,18 +27,19 @@ function phpIncludeHtml(opts) {
       console.log("[php-include-html@"+version+"] processing "+file.relative+"...");
     }
     onceArray = []; //reset each file
-    var fout = processFile(file);
-    this.push(fout);
+    var cont = processContents(file.contents.toString());
+    file.contents = new Buffer(cont);
+    this.push(file);
     cb();
   });
   return stream;
 }
 
-function processFile(file) {
+function processContents(orig) {
   var regex = /<\?(php){0,1}\s+(?:(require_once|include_once|require|include)[^;]*?['"](.+?)['"].*?;{0,1})\s*\?>/gmi;
-  var cont = file.contents.toString();
+  var cont = orig;
   var res = null;
-  while((res = regex.exec(file.contents))) {
+  while((res = regex.exec(orig))) {
     var rori = String(res[2]).substr(0,7); //"require"/"include"
     var once = (String(res[2]).length > 7); //true/false
     var fnam = res[3];
@@ -53,9 +53,9 @@ function processFile(file) {
       onceArray[fnam] = rori;
       var floc = path.normalize(path.join(options.path,fnam));
       try {
-        var newf = fs.readFileSync(floc);
-        var resf = processFile(new vinyl({path:floc,contents:new Buffer(newf.toString())}));
-        cont = cont.replace(res[0],resf.contents.toString());
+        var newf = fs.readFileSync(floc,'utf8');
+        var resf = processContents(newf);
+        cont = cont.replace(res[0],resf);
         if(options.verbose) {
           console.log("[php-include-html@"+version+"] "+rori+"d: "+fnam);
         }
@@ -67,8 +67,7 @@ function processFile(file) {
       }
     }
   }
-  file.contents = new Buffer(cont);
-  return file;
+  return cont;
 }
 
 module.exports = phpIncludeHtml;

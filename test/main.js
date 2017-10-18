@@ -112,6 +112,17 @@ describe("php-include-html",function() {
           done();
         });
       });
+      it("should include a file recursively",function(done) {
+        var floc = path.normalize(process.cwd()+"/index.php");
+        var temp = new util.File({contents:new Buffer("<html><?php include(\"test/fixtures/test2.php\");?></html>"),path:floc});
+        var stream = phpinc();
+        stream.write(temp);
+        stream.once("data",function(file) {
+          expect(file.isBuffer()).to.be.true;
+          expect(file.contents.toString()).to.contain("Test2.php includes contents of test.php");
+          done();
+        });
+      });     
     });
     describe("Function: require",function() {
       it("should include a file once (double quotes and brackets)",function(done) {
@@ -177,6 +188,17 @@ describe("php-include-html",function() {
         stream.once("data",function(file) {
           expect(file.isBuffer()).to.be.true;
           expect(file.contents.toString()).to.contain("contents of test.php\ncontents of test.php\ncontents of test.php");
+          done();
+        });
+      });
+      it("should include a file recursively",function(done) {
+        var floc = path.normalize(process.cwd()+"/index.php");
+        var temp = new util.File({contents:new Buffer("<html><?php require 'test/fixtures/test2.php';?></html>"),path:floc});
+        var stream = phpinc();
+        stream.write(temp);
+        stream.once("data",function(file) {
+          expect(file.isBuffer()).to.be.true;
+          expect(file.contents.toString()).to.contain("Test2.php includes contents of test.php");
           done();
         });
       });
@@ -250,6 +272,17 @@ describe("php-include-html",function() {
           done();
         });
       });
+      it("should include a file recursively",function(done) {
+        var floc = path.normalize(process.cwd()+"/index.php");
+        var temp = new util.File({contents:new Buffer("<html><?php include_once 'test/fixtures/test2.php';?></html>"),path:floc});
+        var stream = phpinc();
+        stream.write(temp);
+        stream.once("data",function(file) {
+          expect(file.isBuffer()).to.be.true;
+          expect(file.contents.toString()).to.contain("Test2.php includes contents of test.php");
+          done();
+        });
+      });
     });
     describe("Function: require_once",function() {
       it("should include a file once (double quotes and brackets)",function(done) {
@@ -317,6 +350,17 @@ describe("php-include-html",function() {
           expect(file.isBuffer()).to.be.true;
           expect(file.contents.toString()).to.contain("contents of test.php");
           expect(file.contents.toString()).to.not.contain("contents of test.php\ncontents of test.php");
+          done();
+        });
+      });
+      it("should include a file recursively",function(done) {
+        var floc = path.normalize(process.cwd()+"/index.php");
+        var temp = new util.File({contents:new Buffer("<html><?php require_once 'test/fixtures/test2.php';?></html>"),path:floc});
+        var stream = phpinc();
+        stream.write(temp);
+        stream.once("data",function(file) {
+          expect(file.isBuffer()).to.be.true;
+          expect(file.contents.toString()).to.contain("Test2.php includes contents of test.php");
           done();
         });
       });

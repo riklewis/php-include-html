@@ -6,6 +6,7 @@ var vinyl = require("vinyl");
 var PluginError = util.PluginError;
 var options = {};
 var onceArray = [];
+var version = "1.3.0"; /* must match package.json file */
 
 function phpIncludeHtml(opts) {
   options = opts;
@@ -22,10 +23,9 @@ function phpIncludeHtml(opts) {
     }
     if(!file.isBuffer()) {
       this.emit("error",new PluginError("php-include-html","Sorry, streams are not supported in php-include-html"));
-      //return cb();
     }
     if(options.verbose) {
-      console.log("[php-include-html] processing "+file.relative+"...");
+      console.log("[php-include-html@"+version+"] processing "+file.relative+"...");
     }
     onceArray = []; //reset each file
     var fout = processFile(file);
@@ -36,17 +36,17 @@ function phpIncludeHtml(opts) {
 }
 
 function processFile(file) {
-  var regex = /<\?(php){0,1}\s+(?:(require_once|include_once|require|include)[^;]*?['"](.+?)['"].*?;)\s*\?>/gmi;
+  var regex = /<\?(php){0,1}\s+(?:(require_once|include_once|require|include)[^;]*?['"](.+?)['"].*?;{0,1})\s*\?>/gmi;
   var cont = file.contents.toString();
   var res = null;
-  while((res = regex.exec(file.contents))!==null) {
+  while((res = regex.exec(file.contents))) {
     var rori = String(res[2]).substr(0,7); //"require"/"include"
     var once = (String(res[2]).length > 7); //true/false
     var fnam = res[3];
     if(once && onceArray[fnam]) {
       cont = cont.replace(res[0],"");
       if(options.verbose) {
-        console.log("[php-include-html] not "+rori+"d: "+fnam+" (already "+rori+"d)");
+        console.log("[php-include-html@"+version+"] not "+rori+"d: "+fnam+" (already "+rori+"d)");
       }
     }
     else {
@@ -57,12 +57,12 @@ function processFile(file) {
         var resf = processFile(new vinyl({path:floc,contents:new Buffer(newf.toString())}));
         cont = cont.replace(res[0],resf.contents.toString());
         if(options.verbose) {
-          console.log("[php-include-html] "+rori+"d: "+fnam);
+          console.log("[php-include-html@"+version+"] "+rori+"d: "+fnam);
         }
       }
       catch(e) {
         if(options.verbose) {
-          console.log("[php-include-html] failed "+rori+": "+fnam);
+          console.log("[php-include-html@"+version+"] failed "+rori+": "+fnam);
         }
       }
     }

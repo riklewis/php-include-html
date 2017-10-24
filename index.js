@@ -5,7 +5,7 @@ var through = require("through2");
 var PluginError = util.PluginError;
 var options = {};
 var onceArray = [];
-var version = "1.3.0a"; /* must match package.json file */
+var version = "1.3.0"; /* must match package.json file */
 
 function phpIncludeHtml(opts) {
   options = opts;
@@ -30,7 +30,7 @@ function phpIncludeHtml(opts) {
     var cont = processContents(file.contents.toString());
     file.contents = new Buffer(cont);
     this.push(file);
-    cb();
+    return cb();
   });
   return stream;
 }
@@ -42,9 +42,10 @@ function processContents(orig) {
   while((res = regex.exec(orig))) {
     var rori = String(res[2]).substr(0,7); //"require"/"include"
     var once = (String(res[2]).length > 7); //true/false
+    var text = res[0];
     var fnam = res[3];
     if(once && onceArray[fnam]) {
-      cont = cont.replace(res[0],"");
+      cont = cont.replace(text,"");
       if(options.verbose) {
         console.log("[php-include-html@"+version+"] not "+rori+"d: "+fnam+" (already "+rori+"d)");
       }
@@ -53,9 +54,9 @@ function processContents(orig) {
       onceArray[fnam] = rori;
       var floc = path.normalize(path.join(options.path,fnam));
       try {
-        var newf = fs.readFileSync(floc,'utf8');
+        var newf = fs.readFileSync(floc).toString();
         var resf = processContents(newf);
-        cont = cont.replace(res[0],resf);
+        cont = cont.replace(text,resf);
         if(options.verbose) {
           console.log("[php-include-html@"+version+"] "+rori+"d: "+fnam);
         }
@@ -69,5 +70,4 @@ function processContents(orig) {
   }
   return cont;
 }
-
 module.exports = phpIncludeHtml;

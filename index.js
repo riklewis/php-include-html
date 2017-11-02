@@ -5,7 +5,7 @@ var through = require("through2");
 var PluginError = util.PluginError;
 var options = {};
 var onceArray = [];
-var version = "1.3.0"; /* must match package.json file */
+var version = "1.3.1"; /* must match package.json file */
 
 function phpIncludeHtml(opts) {
   options = opts;

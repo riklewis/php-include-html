@@ -72,7 +72,7 @@ Configuration options
 * **verbose**: Will output additional messages to the console (boolean - default: false)
 * **path**: The base path of files if not same as gulpfile (string - default: "")
 
-Please donate
-=============
+Treat me to a beer!
+===================
 
-[![PayPal](https://img.shields.io/badge/PayPal-Donate-blue.svg)](https://www.paypal.me/riklewis) [![LiberaPay](https://img.shields.io/badge/LiberaPay-Donate-yellow.svg)](https://liberapay.com/riklewis/donate)
+[![PayPal](https://img.shields.io/badge/PayPal-Donate-blue.svg)](https://www.paypal.me/riklewis)

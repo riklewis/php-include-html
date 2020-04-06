@@ -28,7 +28,7 @@ function phpIncludeHtml(opts) {
     }
     onceArray = []; //reset each file
     var cont = processContents(file.contents.toString());
-    file.contents = new Buffer(cont);
+    file.contents = Buffer.from(cont);
     this.push(file);
     return cb();
   });

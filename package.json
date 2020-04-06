@@ -1,6 +1,6 @@
 {
   "name": "php-include-html",
-  "version": "1.4.5",
+  "version": "1.4.6",
   "description": "Scan PHP files in Gulp and process include and require statements to inline HTML snippets",
   "main": "index.js",
   "repository": {

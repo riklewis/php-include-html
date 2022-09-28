@@ -29,7 +29,7 @@
     "chai": "^4.2.0",
     "coveralls": "^3.0.4",
     "event-stream": "^4.0.1",
-    "expect": "^28.1.1",
+    "expect": "^29.1.0",
     "gulp-util": "^3.0.8",
     "lodash": "^4.17.14",
     "lodash.template": "^4.5.0",
